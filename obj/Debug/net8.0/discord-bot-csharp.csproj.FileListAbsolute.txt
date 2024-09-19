@@ -23,4 +23,9 @@ C:\Développement\discord-bot-csharp\obj\Debug\net8.0\refint\discord-bot-csharp.
 C:\Développement\discord-bot-csharp\obj\Debug\net8.0\discord-bot-csharp.pdb
 C:\Développement\discord-bot-csharp\obj\Debug\net8.0\discord-bot-csharp.genruntimeconfig.cache
 C:\Développement\discord-bot-csharp\obj\Debug\net8.0\ref\discord-bot-csharp.dll
-C:\Développement\discord-bot-csharp\bin\Debug\net8.0\Config\config.json
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\DSharpPlus.SlashCommands.dll
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\DotNetEnv.dll
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Développement\discord-bot-csharp\bin\Debug\net8.0\Sprache.dll
