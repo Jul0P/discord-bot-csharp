@@ -4,16 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>discord_bot_csharp</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="DSharpPlus" Version="4.5.0" />
         <PackageReference Include="DSharpPlus.CommandsNext" Version="4.5.0" />
         <PackageReference Include="DSharpPlus.Interactivity" Version="4.5.0" />
+        <PackageReference Include="DSharpPlus.SlashCommands" Version="4.5.0" />
         <PackageReference Include="System.Net.Security" Version="4.3.2" />
-        <None Update="Config/config.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <Folder Include="bin\Debug\" />
     </ItemGroup>
 </Project>
