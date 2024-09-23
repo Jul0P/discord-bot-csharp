@@ -1,4 +1,5 @@
 ﻿using discord_bot_csharp.Commands;
+using discord_bot_csharp.Ready;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
@@ -10,26 +11,33 @@ namespace discord_bot_csharp;
 
 class Program
 {
-    public static DiscordClient Client { get; set; }
-    public static CommandsNextExtension Commands { get; set; }
+    private static DiscordClient client { get; set; }
+    private static DiscordConfiguration config { get; set; }
+    private static string token { get; set; }
+
 
     static async Task Main(string[] args)
     {
-        Env.Load();
-
-        string token = Environment.GetEnvironmentVariable("TOKEN");
-
-        var config = new DiscordConfiguration()
+        DotNetEnv.Env.Load();
+        token = Environment.GetEnvironmentVariable("TOKEN");
+        if (string.IsNullOrWhiteSpace(token))
         {
-            Intents = DiscordIntents.All,
+            Console.WriteLine("Please specify a token in the DISCORD_TOKEN environment variable.");
+            Environment.Exit(1);
+            return;
+        }
+
+        config = new()
+        {
             Token = token,
+            Intents = DiscordIntents.All,
             TokenType = TokenType.Bot,
             AutoReconnect = true
         };
 
-        Client = new DiscordClient(config);
+        client = new(config);
 
-        Client.Ready += Client_Ready;
+        client.Ready += Ready.Ready.OnReady;
 
         // Commands Next Configuration
         // var commandsConfig = new CommandsNextConfiguration
@@ -39,38 +47,19 @@ class Program
         //     EnableDefaultHelp = false
         // };
 
-        // Commands = Client.UseCommandsNext(commandsConfig);
+        // Commands = client.UseCommandsNext(commandsConfig);
 
         // Commands.RegisterCommands<Basic>();
 
         // Slash Commands Configuration
 
-        var slash = Client.UseSlashCommands();
+        var slash = client.UseSlashCommands();
 
         slash.RegisterCommands<SlashCommands>();
 
         Console.WriteLine("discord-bot-csharp est actif (J#)");
 
-        await Client.ConnectAsync();
+        await client.ConnectAsync();
         await Task.Delay(-1);
-    }
-
-    private static async Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
-    {
-        await Task.Delay(1000);
-
-        var guild = Client.Guilds.Values.FirstOrDefault();
-        
-        if (guild != null)
-        {
-            var memberCount = guild.MemberCount;
-            var activity = new DiscordActivity
-            {
-                Name = $"{memberCount} membres",
-                ActivityType = ActivityType.Watching
-            };
-
-            await Client.UpdateStatusAsync(activity);
-        }
     }
 }
