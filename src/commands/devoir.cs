@@ -8,10 +8,12 @@ namespace discord_bot_csharp.Commands
 {
     public class SlashCommands : ApplicationCommandModule
     {
-        [SlashCommand("test", "Envoie un message de test")]
+        [SlashCommand("status", "Envoie un message de status")]
         public async Task TestCommand(InteractionContext ctx)
         {
-            await ctx.CreateResponseAsync("Hello");
+            await ctx.CreateResponseAsync("Le bot est bien actif !");
+            await Task.Delay(3000);
+            await ctx.DeleteResponseAsync();
         }
 
         // [SlashCommand("devoir", "Crée un embed pour un devoir")]
