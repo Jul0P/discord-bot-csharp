@@ -1,9 +1,4 @@
-﻿using discord_bot_csharp.Commands;
-using discord_bot_csharp.Ready;
-using DSharpPlus;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.EventArgs;
-using DSharpPlus.Entities;
+﻿using DSharpPlus;
 using DSharpPlus.SlashCommands;
 using DotNetEnv;
 
@@ -22,12 +17,12 @@ class Program
         token = Environment.GetEnvironmentVariable("TOKEN");
         if (string.IsNullOrWhiteSpace(token))
         {
-            Console.WriteLine("Please specify a token in the DISCORD_TOKEN environment variable.");
+            Console.WriteLine("Veuillez renseigner le token dans le fichier .env");
             Environment.Exit(1);
             return;
         }
 
-        config = new()
+        config = new DiscordConfiguration
         {
             Token = token,
             Intents = DiscordIntents.All,
@@ -35,27 +30,11 @@ class Program
             AutoReconnect = true
         };
 
-        client = new(config);
+        client = new DiscordClient(config);
 
         client.Ready += Ready.Ready.OnReady;
 
-        // Commands Next Configuration
-        // var commandsConfig = new CommandsNextConfiguration
-        // {
-        //     EnableMentionPrefix = true,
-        //     EnableDms = true,
-        //     EnableDefaultHelp = false
-        // };
-
-        // Commands = client.UseCommandsNext(commandsConfig);
-
-        // Commands.RegisterCommands<Basic>();
-
-        // Slash Commands Configuration
-
-        var slash = client.UseSlashCommands();
-
-        slash.RegisterCommands<SlashCommands>();
+        Loaders.LoadCommands.Load(client);
 
         Console.WriteLine("discord-bot-csharp est actif (J#)");
 
