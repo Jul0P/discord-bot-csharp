@@ -9,6 +9,7 @@ public class LoadCommands
     {
         var slash = client.UseSlashCommands();
         slash.RegisterCommands<Commands.AddDevoir>();
+        slash.RegisterCommands<Commands.DeleteDevoir>();
         slash.RegisterCommands<Commands.Status>();
     }
 }
