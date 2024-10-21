@@ -1,0 +1,188 @@
+[
+    {
+        "Date": "04/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "PIX",
+                    "Professeur": "",
+                    "Description": "Avoir fini le parcours de rentrée"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Vérifier (finir et rendre) les TP Procédures Stockées"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Rendre la Page 15 modifiée + Classe Livre dans l'entrée Page 15"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Doc de présentation PDO fetch + démonstration d'utilisation"
+                },
+                {
+                    "Matiere": "SLAM - Portfolio",
+                    "Professeur": "",
+                    "Description": "Toutes les réalisations professionnelles cliquables et détaillées"
+                },
+                {
+                    "Matiere": "Maths",
+                    "Professeur": "",
+                    "Description": "Exercice 42 page 131"
+                }
+            ],
+            "Groupe B": [
+                {
+                    "Matiere": "PIX",
+                    "Professeur": "",
+                    "Description": "Avoir fini le parcours de rentrée"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Vérifier (finir et rendre) les TP Procédures Stockées"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Rendre la Page 15 modifiée + Classe Livre dans l'entrée Page 15"
+                },
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Doc de présentation PDO fetch + démonstration d'utilisation"
+                },
+                {
+                    "Matiere": "SLAM - Portfolio",
+                    "Professeur": "",
+                    "Description": "Toutes les réalisations professionnelles cliquables et détaillées"
+                },
+                {
+                    "Matiere": "Maths",
+                    "Professeur": "",
+                    "Description": "Exercice 42 page 131"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "05/11",
+        "Devoirs": {
+            "Groupe B": [
+                {
+                    "Matiere": "CGE",
+                    "Professeur": "",
+                    "Description": "Faire la première partie du sujet (Réponse aux questions)"
+                }
+            ],
+            "Groupe A": [
+                {
+                    "Matiere": "SLAM - RSZ",
+                    "Professeur": "",
+                    "Description": "Rendre le projet Panneaux Solaires"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "06/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "Anglais",
+                    "Professeur": "",
+                    "Description": "Rendre la synthèse à l'écrit : Padlet > Going Abroad > Sujet SIO sur le Metaverse"
+                }
+            ],
+            "Groupe B": [
+                {
+                    "Matiere": "SISR - PCC",
+                    "Professeur": "",
+                    "Description": "Évaluation sur les formations, finir certification Cisco"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "07/11",
+        "Devoirs": {
+            "Groupe B": [
+                {
+                    "Matiere": "ABL - B1",
+                    "Professeur": "",
+                    "Description": "Tout ce qui concerne la gestion d'incidents, remontée d'inventaire, etc., doit être su"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "08/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "CEJM",
+                    "Professeur": "",
+                    "Description": "Tenoras à présenter"
+                }
+            ],
+            "Groupe B": [
+                {
+                    "Matiere": "CEJM",
+                    "Professeur": "",
+                    "Description": "Rendre Tenoras"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "12/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "SLAM - CBA",
+                    "Professeur": "",
+                    "Description": "Évaluation procédures stockées"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "13/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "BTS Inscription",
+                    "Professeur": "",
+                    "Description": "Téléverser ses documents dans Cyclade avant 23h59"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "14/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "PCC - CBA",
+                    "Professeur": "",
+                    "Description": "PowerPoint présentation PCC"
+                }
+            ]
+        }
+    },
+    {
+        "Date": "21/11",
+        "Devoirs": {
+            "Groupe A": [
+                {
+                    "Matiere": "Codeurs en Seine",
+                    "Professeur": "",
+                    "Description": "Venir avec le ticket d'entrée, CV et Lettre de motivation (s'habiller professionnellement)"
+                }
+            ]
+        }
+    }
+]
