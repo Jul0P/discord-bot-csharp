@@ -20,13 +20,12 @@ class Program
 
         Client = new DiscordClient(Config);
 
-        Client.Ready += Ready.Ready.OnReady;
+        await Client.ConnectAsync();
 
         Loaders.LoadCommands.Load(Client);
-
+        await Loaders.LoadServices.Load(Client);
         Console.WriteLine("discord-bot-csharp est actif (J#)");
 
-        await Client.ConnectAsync();
         await Task.Delay(-1);
     }
 }

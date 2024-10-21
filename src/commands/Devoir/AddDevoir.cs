@@ -11,7 +11,7 @@ public class AddDevoir : ApplicationCommandModule
     private const string FilePath = "src/data/devoir.json";
 
     [SlashCommand("adddevoir", "Crée un embed pour un devoir")]
-    public async Task AddDevoirCommand(InteractionContext ctx,
+    public async Task Command(InteractionContext ctx,
         [Option("date", "La date, format: 09/19")] string date,
         [Option("groupe", "Le groupe, format: A / B")] string groupe,
         [Option("matiere", "La matière, format: anglais, maths, français")] string matiere,

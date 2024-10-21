@@ -11,7 +11,7 @@ public class DeleteDevoir : ApplicationCommandModule
     private const string FilePath = "src/data/devoir.json";
 
     [SlashCommand("deletedevoir", "Supprime un devoir")]
-    public async Task DeleteDevoirCommand(InteractionContext ctx,
+    public async Task Command(InteractionContext ctx,
         [Option("date", "La date, format: 09/19")] string date,
         [Option("groupe", "Le groupe, format: A / B")] string groupe,
         [Option("matiere", "La matière, format: anglais, maths, français")] string matiere)

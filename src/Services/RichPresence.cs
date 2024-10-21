@@ -2,13 +2,13 @@ using DSharpPlus;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Entities;
 
-namespace discord_bot_csharp.Ready;
+namespace discord_bot_csharp.Services;
 
-public static class Ready
+public static class RichPresence
 {
     private static DiscordActivity activity { get; set; }
 
-    public static async Task OnReady(DiscordClient client, ReadyEventArgs e)
+    public static async Task Ready(DiscordClient client, ReadyEventArgs e)
     {
         await Task.Delay(1000);
 
