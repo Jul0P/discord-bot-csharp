@@ -3,6 +3,8 @@ using DSharpPlus.SlashCommands;
 using DSharpPlus.Entities;
 using System.Text.Json;
 using System.IO;
+using System.Globalization;
+using discord_bot_csharp.Models;
 
 namespace discord_bot_csharp.Commands;
 
@@ -10,27 +12,45 @@ public class UpdateDevoir : ApplicationCommandModule
 {
     private const string FilePath = "src/data/devoir.json";
 
-    [SlashCommand("updatedevoir", "Met à jour un devoir")]
+    [SlashCommand("updatedevoir", "Mettre à jour un devoir")]
     public async Task Command(InteractionContext ctx,
-        [Option("date", "La date, format: 09/19")] string date,
-        [Option("groupe", "Le groupe, format: A / B")] string groupe,
-        [Option("matiere", "La matière, format: anglais, maths, français")] string matiere,
-        [Option("professeur", "Le professeur, format: maurice")] string professeurs,
-        [Option("description", "La description")] string description)
+        [Option("date", "format: 20/10")] string date,
+        [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
+        [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
+        [Option("description", "description")] string description)
     {
-        bool updated = CheckDevoir(date, groupe, matiere, professeurs, description);
+        var member = await ctx.Guild.GetMemberAsync(ctx.User.Id);
+        if (!member.Roles.Any(role => role.Id == 1280508888206282812))
+        {
+            var permissionEmbed = new DiscordEmbedBuilder
+            {
+                Title = "Erreur",
+                Description = "Vous n'avez pas la permission d'utiliser cette commande",
+                Color = DiscordColor.Red
+            };
+
+            await ctx.CreateResponseAsync(embed: permissionEmbed.Build());
+            await Task.Delay(3000);
+            await ctx.DeleteResponseAsync();
+            return;
+        }
+
+        bool updated = Update(date, groupe, matiere, description);
 
         var embed = new DiscordEmbedBuilder
         {
             Title = updated ? "Devoir mis à jour" : "Devoir non trouvé",
-            Description = updated ? $"Le devoir du {date} pour le groupe {groupe} en {matiere} a été mis à jour." : "Aucun devoir correspondant trouvé.",
+            Description = updated ? $"Le devoir du **{date}** pour le groupe **{groupe}** en **{matiere}** a été mis à jour" : "Aucun devoir trouvé",
             Color = updated ? DiscordColor.Green : DiscordColor.Red
         };
 
         await ctx.CreateResponseAsync(embed: embed.Build());
+        await Services.Devoir.Init(ctx.Client, date);
+        await Task.Delay(5000);
+        await ctx.DeleteResponseAsync();
     }
 
-    private bool CheckDevoir(string date, string groupe, string matiere, string professeurs, string description)
+    private bool Update(string date, string groupe, string matiere, string description)
     {
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
@@ -38,20 +58,52 @@ public class UpdateDevoir : ApplicationCommandModule
         }
 
         var json = File.ReadAllText(FilePath);
-        var devoirs = JsonSerializer.Deserialize<List<Devoir>>(json) ?? new List<Devoir>();
+        var devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
 
-        var devoirToUpdate = devoirs.FirstOrDefault(d => d.Date == date && d.Groupe == groupe && d.Matiere == matiere);
+        var devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+        if (devoirDate == null)
+        {
+            return false;
+        }
+
+        bool updated = false;
+        if (groupe == "AB")
+        {
+            updated = UpdateInGroup(devoirDate, "Groupe A", matiere, description);
+            updated = UpdateInGroup(devoirDate, "Groupe B", matiere, description);
+        }
+        else if (groupe == "A" || groupe == "B")
+        {
+            updated = UpdateInGroup(devoirDate, "Groupe " + groupe, matiere, description);
+        }
+        else
+        {
+            updated = UpdateInGroup(devoirDate, groupe, matiere, description);
+        }
+
+        if (updated)
+        {
+            var updatedJson = JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePath, updatedJson);
+        }
+
+        return updated;
+    }
+
+    private bool UpdateInGroup(DevoirDate devoirDate, string groupe, string matiere, string description)
+    {
+        if (!devoirDate.Devoirs.ContainsKey(groupe))
+        {
+            return false;
+        }
+
+        var devoirToUpdate = devoirDate.Devoirs[groupe].FirstOrDefault(d => d.Matiere == matiere);
         if (devoirToUpdate == null)
         {
             return false;
         }
 
-        devoirToUpdate.Professeurs = professeurs;
         devoirToUpdate.Description = description;
-
-        var updatedJson = JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(FilePath, updatedJson);
-
         return true;
     }
 }

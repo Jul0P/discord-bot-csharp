@@ -6,7 +6,7 @@ namespace discord_bot_csharp.Commands;
 public class Status : ApplicationCommandModule
 {
     [SlashCommand("status", "Envoie un message de status")]
-    public async Task StatusCommand(InteractionContext ctx)
+    public async Task Command(InteractionContext ctx)
     {
         await ctx.CreateResponseAsync("Le bot est bien actif !");
         await Task.Delay(3000);
