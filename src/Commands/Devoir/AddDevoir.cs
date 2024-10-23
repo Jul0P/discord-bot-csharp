@@ -3,6 +3,8 @@ using DSharpPlus.SlashCommands;
 using DSharpPlus.Entities;
 using System.Text.Json;
 using System.IO;
+using System.Globalization;
+using discord_bot_csharp.Models;
 
 namespace discord_bot_csharp.Commands;
 
@@ -10,43 +12,57 @@ public class AddDevoir : ApplicationCommandModule
 {
     private const string FilePath = "src/data/devoir.json";
 
-    [SlashCommand("adddevoir", "Crée un embed pour un devoir")]
+    [SlashCommand("adddevoir", "Ajouter un devoir")]
     public async Task Command(InteractionContext ctx,
-        [Option("date", "La date, format: 09/19")] string date,
-        [Option("groupe", "Le groupe, format: A / B")] string groupe,
-        [Option("matiere", "La matière, format: anglais, maths, français")] string matiere,
-        [Option("professeur", "Le professeur, format: maurice")] string professeurs,
-        [Option("description", "La description")] string description)
+        [Option("date", "format: 20/10")] string date,
+        [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
+        [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
+        [Option("description", "description")] string description)
     {
+        var member = await ctx.Guild.GetMemberAsync(ctx.User.Id);
+        if (!member.Roles.Any(role => role.Id == 1280508888206282812))
+        {
+            var permissionEmbed = new DiscordEmbedBuilder
+            {
+                Title = "Erreur",
+                Description = "Vous n'avez pas la permission d'utiliser cette commande",
+                Color = DiscordColor.Red
+            };
+
+            await ctx.CreateResponseAsync(embed: permissionEmbed.Build());
+            await Task.Delay(3000);
+            await ctx.DeleteResponseAsync();
+            return;
+        }
+        
         var devoir = new Devoir
         {
-            Date = date,
-            Groupe = groupe,
             Matiere = matiere,
-            Professeurs = professeurs,
             Description = description
         };
 
-        SaveDevoir(devoir);
+        Add(date, groupe, devoir);
 
         var embed = new DiscordEmbedBuilder
         {
             Title = "Devoir ajouté",
-            Description = description,
-            Color = DiscordColor.Blurple
+            Description = $"```{description}```",
+            Color = DiscordColor.Green
         };
 
         embed.AddField("Date", date, true);
         embed.AddField("Groupe", groupe, true);
         embed.AddField("Matière", matiere, true);
-        embed.AddField("Professeur", professeurs, true);
 
         await ctx.CreateResponseAsync(embed: embed.Build());
+        await Services.Devoir.Init(ctx.Client, date);
+        await Task.Delay(5000);
+        await ctx.DeleteResponseAsync();
     }
 
-    private void SaveDevoir(Devoir devoir)
+    private void Add(string date, string groupe, Devoir devoir)
     {
-        List<Devoir> devoirs;
+        List<DevoirDate> devoirs;
 
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
@@ -54,19 +70,42 @@ public class AddDevoir : ApplicationCommandModule
         }
 
         var json = File.ReadAllText(FilePath);
-        devoirs = JsonSerializer.Deserialize<List<Devoir>>(json) ?? new List<Devoir>();
+        devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
 
-        devoirs.Add(devoir);
+        var devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+        if (devoirDate == null)
+        {
+            devoirDate = new DevoirDate { Date = date, Devoirs = new Dictionary<string, List<Devoir>>() };
+            devoirs.Add(devoirDate);
+        }
+
+        if (groupe == "AB")
+        {
+            AddToGroup(devoirDate, "Groupe A", devoir);
+            AddToGroup(devoirDate, "Groupe B", devoir);
+        }
+        else if (groupe == "A" || groupe == "B")
+        {
+            AddToGroup(devoirDate, "Groupe " + groupe, devoir);
+        }
+        else
+        {
+            AddToGroup(devoirDate, groupe, devoir);
+        }
+
+        devoirs = devoirs.OrderBy(d => DateTime.ParseExact(d.Date, "dd/MM", CultureInfo.InvariantCulture)).ToList();
+
         var updatedJson = JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(FilePath, updatedJson);
     }
-}
 
-public class Devoir
-{
-    public string Date { get; set; }
-    public string Groupe { get; set; }
-    public string Matiere { get; set; }
-    public string Professeurs { get; set; }
-    public string Description { get; set; }
+    private void AddToGroup(DevoirDate devoirDate, string groupe, Devoir devoir)
+    {
+        if (!devoirDate.Devoirs.ContainsKey(groupe))
+        {
+            devoirDate.Devoirs[groupe] = new List<Devoir>();
+        }
+
+        devoirDate.Devoirs[groupe].Add(devoir);
+    }
 }

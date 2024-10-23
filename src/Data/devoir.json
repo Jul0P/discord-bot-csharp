@@ -5,65 +5,39 @@
             "Groupe A": [
                 {
                     "Matiere": "PIX",
-                    "Professeur": "",
-                    "Description": "Avoir fini le parcours de rentrée"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Vérifier (finir et rendre) les TP Procédures Stockées"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Rendre la Page 15 modifiée + Classe Livre dans l'entrée Page 15"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Doc de présentation PDO fetch + démonstration d'utilisation"
-                },
-                {
-                    "Matiere": "SLAM - Portfolio",
-                    "Professeur": "",
-                    "Description": "Toutes les réalisations professionnelles cliquables et détaillées"
+                    "Description": "Avoir fini le parcours de rentr\u00E9e"
                 },
                 {
                     "Matiere": "Maths",
-                    "Professeur": "",
                     "Description": "Exercice 42 page 131"
                 }
             ],
             "Groupe B": [
                 {
                     "Matiere": "PIX",
-                    "Professeur": "",
-                    "Description": "Avoir fini le parcours de rentrée"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Vérifier (finir et rendre) les TP Procédures Stockées"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Rendre la Page 15 modifiée + Classe Livre dans l'entrée Page 15"
-                },
-                {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Doc de présentation PDO fetch + démonstration d'utilisation"
-                },
-                {
-                    "Matiere": "SLAM - Portfolio",
-                    "Professeur": "",
-                    "Description": "Toutes les réalisations professionnelles cliquables et détaillées"
+                    "Description": "Avoir fini le parcours de rentr\u00E9e"
                 },
                 {
                     "Matiere": "Maths",
-                    "Professeur": "",
                     "Description": "Exercice 42 page 131"
+                }
+            ],
+            "SLAM": [
+                {
+                    "Matiere": "CBA",
+                    "Description": "V\u00E9rifier (finir et rendre) les TP Proc\u00E9dures Stock\u00E9es (Client - Commande \u002B Liste Chanson Concat\u00E9n\u00E9es)"
+                },
+                {
+                    "Matiere": "CBA",
+                    "Description": "Rendre la Page 15 modifi\u00E9e \u002B Classe Livre dans l\u0027entr\u00E9e Page 15"
+                },
+                {
+                    "Matiere": "CBA",
+                    "Description": "Doc de pr\u00E9sentation (Word, PowerPoint, ...) de tous les PDO fetch qui sera pr\u00E9sent\u00E9e par 1 ou plusieurs \u00E9tudiants (illustrer avec une d\u00E9monstration d\u0027utilisation pour chaque fetch) \u002B Livrer le doc de pr\u00E9sentation \u002B toutes les pages n\u00E9cessaires aux d\u00E9monstrations"
+                },
+                {
+                    "Matiere": "CBA",
+                    "Description": "Portfolio : Toutes les r\u00E9alisations professionnelles cliquable et d\u00E9taill\u00E9es avec les preuves, y compris le stage, savoir justifier chaque sous-comp\u00E9tences"
                 }
             ]
         }
@@ -74,14 +48,12 @@
             "Groupe B": [
                 {
                     "Matiere": "CGE",
-                    "Professeur": "",
-                    "Description": "Faire la première partie du sujet (Réponse aux questions)"
+                    "Description": "Faire la premi\u00E8re partie du sujet (R\u00E9ponse aux questions)"
                 }
             ],
-            "Groupe A": [
+            "SLAM": [
                 {
-                    "Matiere": "SLAM - RSZ",
-                    "Professeur": "",
+                    "Matiere": "RSZ",
                     "Description": "Rendre le projet Panneaux Solaires"
                 }
             ]
@@ -93,15 +65,13 @@
             "Groupe A": [
                 {
                     "Matiere": "Anglais",
-                    "Professeur": "",
-                    "Description": "Rendre la synthèse à l'écrit : Padlet > Going Abroad > Sujet SIO sur le Metaverse"
+                    "Description": "Rendre la synth\u00E8se \u00E0 l\u0027\u00E9crit : Padlet \u003E Going abroad \u003E Oral training \u003E Sujet SIO sur le metaverse"
                 }
             ],
-            "Groupe B": [
+            "SISR": [
                 {
-                    "Matiere": "SISR - PCC",
-                    "Professeur": "",
-                    "Description": "Évaluation sur les formations, finir certification Cisco"
+                    "Matiere": "PCC",
+                    "Description": "\u00C9valuation sur les formations, finir certification Cisco"
                 }
             ]
         }
@@ -111,9 +81,8 @@
         "Devoirs": {
             "Groupe B": [
                 {
-                    "Matiere": "ABL - B1",
-                    "Professeur": "",
-                    "Description": "Tout ce qui concerne la gestion d'incidents, remontée d'inventaire, etc., doit être su"
+                    "Matiere": "ABL",
+                    "Description": "Tout ce qui concerne la gestion d\u0027incidents, remont\u00E9e d\u0027inventaire, etc., doit \u00EAtre su"
                 }
             ]
         }
@@ -124,14 +93,12 @@
             "Groupe A": [
                 {
                     "Matiere": "CEJM",
-                    "Professeur": "",
-                    "Description": "Tenoras à présenter"
+                    "Description": "Tenoras \u00E0 pr\u00E9senter"
                 }
             ],
             "Groupe B": [
                 {
                     "Matiere": "CEJM",
-                    "Professeur": "",
                     "Description": "Rendre Tenoras"
                 }
             ]
@@ -140,11 +107,10 @@
     {
         "Date": "12/11",
         "Devoirs": {
-            "Groupe A": [
+            "SLAM": [
                 {
-                    "Matiere": "SLAM - CBA",
-                    "Professeur": "",
-                    "Description": "Évaluation procédures stockées"
+                    "Matiere": "CBA",
+                    "Description": "\u00C9valuation proc\u00E9dures stock\u00E9es"
                 }
             ]
         }
@@ -155,8 +121,13 @@
             "Groupe A": [
                 {
                     "Matiere": "BTS Inscription",
-                    "Professeur": "",
-                    "Description": "Téléverser ses documents dans Cyclade avant 23h59"
+                    "Description": "T\u00E9l\u00E9verser ses documents dans Cyclade avant 23h59"
+                }
+            ],
+            "Groupe B": [
+                {
+                    "Matiere": "BTS Inscription",
+                    "Description": "T\u00E9l\u00E9verser ses documents dans Cyclade avant 23h59"
                 }
             ]
         }
@@ -164,11 +135,10 @@
     {
         "Date": "14/11",
         "Devoirs": {
-            "Groupe A": [
+            "SLAM": [
                 {
                     "Matiere": "PCC - CBA",
-                    "Professeur": "",
-                    "Description": "PowerPoint présentation PCC"
+                    "Description": "PowerPoint pr\u00E9sentation PCC"
                 }
             ]
         }
@@ -179,8 +149,7 @@
             "Groupe A": [
                 {
                     "Matiere": "Codeurs en Seine",
-                    "Professeur": "",
-                    "Description": "Venir avec le ticket d'entrée, CV et Lettre de motivation (s'habiller professionnellement)"
+                    "Description": "Venir avec le ticket d\u0027entr\u00E9e, CV et Lettre de motivation (s\u0027habiller professionnellement)"
                 }
             ]
         }
