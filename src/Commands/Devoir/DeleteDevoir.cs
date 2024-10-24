@@ -18,19 +18,8 @@ public class DeleteDevoir : ApplicationCommandModule
         [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere)
     {
-        var member = await ctx.Guild.GetMemberAsync(ctx.User.Id);
-        if (!member.Roles.Any(role => role.Id == 1280508888206282812))
+        if (!await Functions.Permission.Get(ctx, 1280508888206282812))
         {
-            var permissionEmbed = new DiscordEmbedBuilder
-            {
-                Title = "Erreur",
-                Description = "Vous n'avez pas la permission d'utiliser cette commande",
-                Color = DiscordColor.Red
-            };
-
-            await ctx.CreateResponseAsync(embed: permissionEmbed.Build());
-            await Task.Delay(3000);
-            await ctx.DeleteResponseAsync();
             return;
         }
 
