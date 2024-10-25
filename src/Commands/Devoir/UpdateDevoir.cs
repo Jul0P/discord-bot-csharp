@@ -15,7 +15,7 @@ public class UpdateDevoir : ApplicationCommandModule
     [SlashCommand("updatedevoir", "Mettre à jour un devoir")]
     public async Task Command(InteractionContext ctx,
         [Option("date", "format: 20/10")] string date,
-        [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
+        [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
         [Option("description", "description")] string description)
     {
@@ -56,12 +56,8 @@ public class UpdateDevoir : ApplicationCommandModule
         }
 
         bool updated = false;
-        if (groupe == "AB")
-        {
-            updated = UpdateInGroup(devoirDate, "Groupe A", matiere, description);
-            updated = UpdateInGroup(devoirDate, "Groupe B", matiere, description);
-        }
-        else if (groupe == "A" || groupe == "B")
+
+        if (groupe == "A" || groupe == "B")
         {
             updated = UpdateInGroup(devoirDate, "Groupe " + groupe, matiere, description);
         }

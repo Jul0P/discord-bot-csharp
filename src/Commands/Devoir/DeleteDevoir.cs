@@ -15,7 +15,7 @@ public class DeleteDevoir : ApplicationCommandModule
     [SlashCommand("deletedevoir", "Supprimer un devoir")]
     public async Task Command(InteractionContext ctx,
         [Option("date", "format: 20/10")] string date,
-        [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
+        [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere)
     {
         if (!await Functions.Permission.Get(ctx, 1280508888206282812))
@@ -55,12 +55,8 @@ public class DeleteDevoir : ApplicationCommandModule
         }
 
         bool removed = false;
-        if (groupe == "AB")
-        {
-            removed = DeleteFromGroup(devoirDate, "Groupe A", matiere);
-            removed = DeleteFromGroup(devoirDate, "Groupe B", matiere);
-        }
-        else if (groupe == "A" || groupe == "B")
+
+        if (groupe == "A" || groupe == "B")
         {
             removed = DeleteFromGroup(devoirDate, "Groupe " + groupe, matiere);
         }

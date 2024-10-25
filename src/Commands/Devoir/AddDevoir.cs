@@ -15,7 +15,7 @@ public class AddDevoir : ApplicationCommandModule
     [SlashCommand("adddevoir", "Ajouter un devoir")]
     public async Task Command(InteractionContext ctx,
         [Option("date", "format: 20/10")] string date,
-        [Option("groupe", "format: A / B / SLAM / SISR / AB")] string groupe,
+        [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
         [Option("description", "description")] string description)
     {
@@ -68,12 +68,7 @@ public class AddDevoir : ApplicationCommandModule
             devoirs.Add(devoirDate);
         }
 
-        if (groupe == "AB")
-        {
-            AddToGroup(devoirDate, "Groupe A", devoir);
-            AddToGroup(devoirDate, "Groupe B", devoir);
-        }
-        else if (groupe == "A" || groupe == "B")
+        if (groupe == "A" || groupe == "B")
         {
             AddToGroup(devoirDate, "Groupe " + groupe, devoir);
         }
