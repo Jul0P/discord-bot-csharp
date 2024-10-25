@@ -39,7 +39,7 @@ public static class Devoir
                 Color = DiscordColor.DarkBlue
             };
 
-            foreach (var group in new[] { "Groupe A", "Groupe B", "SLAM", "SISR" })
+            foreach (var group in new[] { "Général", "Groupe A", "Groupe B", "SLAM", "SISR", "Maths 2" })
             {
                 if (devoirDate.Devoirs.ContainsKey(group))
                 {
