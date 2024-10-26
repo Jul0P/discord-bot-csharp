@@ -21,6 +21,7 @@ public static class Devoir
         var devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
         var channel = await client.GetChannelAsync(1297313519825584179);
         var messages = await channel.GetMessagesAsync();
+        var currentDate = DateTime.Now;
 
         foreach (var devoirDate in devoirs)
         {
@@ -32,11 +33,12 @@ public static class Devoir
             var date = DateTime.ParseExact(devoirDate.Date, "dd/MM", CultureInfo.InvariantCulture);
             var dayOfWeek = CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat.GetDayName(date.DayOfWeek);
             dayOfWeek = CultureInfo.GetCultureInfo("fr-FR").TextInfo.ToTitleCase(dayOfWeek);
+            var dayDifference = (currentDate - date).Days;
 
             var embed = new DiscordEmbedBuilder
             {
                 Title = $"{dayOfWeek} {devoirDate.Date}",
-                Color = DiscordColor.DarkBlue
+                Color = dayDifference > 0 ? DiscordColor.Orange : DiscordColor.DarkBlue
             };
 
             foreach (var group in new[] { "Général", "Groupe A", "Groupe B", "SLAM", "SISR", "Maths 2" })
