@@ -23,6 +23,13 @@ public static class Devoir
         var messages = await channel.GetMessagesAsync();
         var currentDate = DateTime.Now;
 
+        messages = messages.Except(messages.Where(m => m.Embeds.Any(e => e.Title.Contains("Devoir")))).Reverse().ToList();
+
+        int messageIndex = 0;
+        bool devoirsUpdated = false;
+
+        var devoirsToRemove = new List<DevoirDate>();
+
         foreach (var devoirDate in devoirs)
         {
             if (devoirDate.Devoirs == null || (dateToProcess != null && devoirDate.Date != dateToProcess))
@@ -34,6 +41,21 @@ public static class Devoir
             var dayOfWeek = CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat.GetDayName(date.DayOfWeek);
             dayOfWeek = CultureInfo.GetCultureInfo("fr-FR").TextInfo.ToTitleCase(dayOfWeek);
             var dayDifference = (currentDate - date).Days;
+
+            if (dayDifference > 4)
+            {
+                devoirsToRemove.Add(devoirDate);
+                devoirsUpdated = true;
+
+                var messageToRemove = messages.FirstOrDefault(m => m.Embeds.Any(e => e.Title == $"{dayOfWeek} {devoirDate.Date}"));
+                if (messageToRemove != null)
+                {
+                    await messageToRemove.DeleteAsync();
+                    messages = await channel.GetMessagesAsync();
+                    messages = messages.Except(messages.Where(m => m.Embeds.Any(e => e.Title.Contains("Devoir")))).Reverse().ToList();
+                }
+                continue;
+            }
 
             var embed = new DiscordEmbedBuilder
             {
@@ -51,14 +73,36 @@ public static class Devoir
             }
 
             var existingMessage = messages.FirstOrDefault(m => m.Embeds.Any(e => e.Title == embed.Title));
-            if (existingMessage != null)
+            if (existingMessage != null && dateToProcess != null)
             {
                 await existingMessage.ModifyAsync(embed: embed.Build());
+            }
+            else if (messageIndex < messages.Count && dateToProcess == null)
+            {
+                var Message = messages[messageIndex];
+                var existingEmbedTitle = Message.Embeds.FirstOrDefault()?.Title;
+                if (existingEmbedTitle != embed.Title)
+                {
+                    await Message.ModifyAsync(embed: embed.Build());
+                }
             }
             else
             {
                 await channel.SendMessageAsync(embed: embed.Build());
             }
+
+            messageIndex++;
+        }
+
+        foreach (var devoirDate in devoirsToRemove)
+        {
+            devoirs.Remove(devoirDate);
+        }
+
+        if (devoirsUpdated)
+        {
+            var updatedJson = JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePath, updatedJson);
         }
     }
 }

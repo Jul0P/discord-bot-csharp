@@ -23,7 +23,7 @@ public class DeleteDevoir : ApplicationCommandModule
             return;
         }
 
-        bool deleted = Delete(date, groupe, matiere);
+        bool deleted = await Delete(date, groupe, matiere, ctx.Client);
 
         var embed = new DiscordEmbedBuilder
         {
@@ -38,7 +38,7 @@ public class DeleteDevoir : ApplicationCommandModule
         await ctx.DeleteResponseAsync();
     }
 
-    private bool Delete(string date, string groupe, string matiere)
+    private async Task<bool> Delete(string date, string groupe, string matiere, DiscordClient client)
     {
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
@@ -68,6 +68,13 @@ public class DeleteDevoir : ApplicationCommandModule
         if (devoirDate.Devoirs.Count == 0)
         {
             devoirs.Remove(devoirDate);
+            var channel = await client.GetChannelAsync(1297313519825584179);    
+            var messages = await channel.GetMessagesAsync();
+            var messageToRemove = messages.FirstOrDefault(m => m.Embeds.Any(e => e.Title.Contains(devoirDate.Date)));
+            if (messageToRemove != null)
+            {
+                await messageToRemove.DeleteAsync();
+            }
         }
 
         if (removed)

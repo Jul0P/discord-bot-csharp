@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.IO;
 using System.Globalization;
 using discord_bot_csharp.Models;
+using discord_bot_csharp.Functions;
 
 namespace discord_bot_csharp.Commands;
 
@@ -30,6 +31,8 @@ public class AddDevoir : ApplicationCommandModule
             Description = description
         };
 
+        var dateExists = DateExists(date);
+
         Add(date, groupe, devoir);
 
         var embed = new DiscordEmbedBuilder
@@ -44,7 +47,15 @@ public class AddDevoir : ApplicationCommandModule
         embed.AddField("Matière", matiere, true);
 
         await ctx.CreateResponseAsync(embed: embed.Build());
-        await Services.Devoir.Init(ctx.Client, date);
+
+        if (dateExists)
+        {
+            await Services.Devoir.Init(ctx.Client, date);
+        }
+        else
+        {
+            await Services.Devoir.Init(ctx.Client);
+        }
         await Task.Delay(5000);
         await ctx.DeleteResponseAsync();
     }
@@ -91,5 +102,18 @@ public class AddDevoir : ApplicationCommandModule
         }
 
         devoirDate.Devoirs[groupe].Add(devoir);
+    }
+
+    private bool DateExists(string date)
+    {
+        if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
+        {
+            return false;
+        }
+
+        var json = File.ReadAllText(FilePath);
+        var devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
+
+        return devoirs.Any(d => d.Date == date);
     }
 }
