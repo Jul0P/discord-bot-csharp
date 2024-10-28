@@ -17,19 +17,20 @@ public class UpdateDevoir : ApplicationCommandModule
         [Option("date", "format: 20/10")] string date,
         [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
-        [Option("description", "description")] string description)
+        [Option("description", "description")] string description = null,
+        [Option("nouvelle_matiere", "format: CBA, ABL, Maths, Anglais")] string nouvelleMatiere = null)
     {
         if (!await Functions.Permission.Get(ctx, 1280508888206282812))
         {
             return;
         }
 
-        bool updated = Update(date, groupe, matiere, description);
+        bool updated = Update(date, groupe, matiere, description, nouvelleMatiere);
 
         var embed = new DiscordEmbedBuilder
         {
             Title = updated ? "Devoir mis à jour" : "Devoir non trouvé",
-            Description = updated ? $"Le devoir du **{date}** pour le groupe **{groupe}** en **{matiere}** a été mis à jour" : "Aucun devoir trouvé",
+            Description = updated ? $"Le devoir du **{date}** pour le groupe **{groupe}** en **{(nouvelleMatiere != null ? $"{matiere} ➔ {nouvelleMatiere}" : matiere)}** a été mis à jour" : "Aucun devoir trouvé",
             Color = updated ? DiscordColor.Green : DiscordColor.Red
         };
 
@@ -39,7 +40,7 @@ public class UpdateDevoir : ApplicationCommandModule
         await ctx.DeleteResponseAsync();
     }
 
-    private bool Update(string date, string groupe, string matiere, string description)
+    private bool Update(string date, string groupe, string matiere, string description, string nouvelleMatiere)
     {
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
@@ -59,11 +60,11 @@ public class UpdateDevoir : ApplicationCommandModule
 
         if (groupe == "A" || groupe == "B")
         {
-            updated = UpdateInGroup(devoirDate, "Groupe " + groupe, matiere, description);
+            updated = UpdateInGroup(devoirDate, "Groupe " + groupe, matiere, description, nouvelleMatiere);
         }
         else
         {
-            updated = UpdateInGroup(devoirDate, groupe, matiere, description);
+            updated = UpdateInGroup(devoirDate, groupe, matiere, description, nouvelleMatiere);
         }
 
         if (updated)
@@ -75,7 +76,7 @@ public class UpdateDevoir : ApplicationCommandModule
         return updated;
     }
 
-    private bool UpdateInGroup(DevoirDate devoirDate, string groupe, string matiere, string description)
+    private bool UpdateInGroup(DevoirDate devoirDate, string groupe, string matiere, string description, string nouvelleMatiere)
     {
         if (!devoirDate.Devoirs.ContainsKey(groupe))
         {
@@ -87,8 +88,16 @@ public class UpdateDevoir : ApplicationCommandModule
         {
             return false;
         }
+        if (!string.IsNullOrEmpty(description))
+        {
+            devoirToUpdate.Description = description;
+        }
 
-        devoirToUpdate.Description = description;
+        if (!string.IsNullOrEmpty(nouvelleMatiere))
+        {
+            devoirToUpdate.Matiere = nouvelleMatiere;
+        }
+
         return true;
     }
 }
