@@ -1,6 +1,6 @@
 namespace discord_bot_csharp.Models;
 
-public class DevoirDate
+public class DevoirJour
 {
     public string Date { get; set; }
     public Dictionary<string, List<Devoir>> Devoirs { get; set; }
