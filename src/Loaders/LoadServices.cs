@@ -2,7 +2,7 @@ using DSharpPlus;
 
 namespace discord_bot_csharp.Loaders;
 
-public static class LoadServices
+public class LoadServices
 {
     public static async Task Load(DiscordClient client)
     {

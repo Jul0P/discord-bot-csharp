@@ -1,11 +1,10 @@
 using DSharpPlus;
-using DSharpPlus.SlashCommands;
 using DSharpPlus.Entities;
+using DSharpPlus.SlashCommands;
 using System.Text.Json;
 using System.IO;
 using System.Globalization;
 using discord_bot_csharp.Models;
-using discord_bot_csharp.Functions;
 
 namespace discord_bot_csharp.Commands;
 
@@ -14,28 +13,28 @@ public class AddDevoir : ApplicationCommandModule
     private const string FilePath = "src/data/devoir.json";
 
     [SlashCommand("adddevoir", "Ajouter un devoir")]
-    public async Task Command(InteractionContext ctx,
+    public async Task Command(InteractionContext context,
         [Option("date", "format: 20/10")] string date,
         [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
         [Option("description", "description")] string description)
     {
-        if (!await Functions.Permission.Get(ctx, 1280508888206282812))
+        if (!await Functions.Permission.Get(context, 1280508888206282812))
         {
             return;
         }
         
-        var devoir = new Devoir
+        Devoir devoir = new Devoir
         {
             Matiere = matiere,
             Description = description
         };
 
-        var dateExists = DateExists(date);
+        bool dateExists = DateExists(date);
 
         Add(date, groupe, devoir);
 
-        var embed = new DiscordEmbedBuilder
+        DiscordEmbedBuilder embed = new DiscordEmbedBuilder
         {
             Title = "Devoir ajouté",
             Description = $"```{description}```",
@@ -46,36 +45,35 @@ public class AddDevoir : ApplicationCommandModule
         embed.AddField("Groupe", groupe, true);
         embed.AddField("Matière", matiere, true);
 
-        await ctx.CreateResponseAsync(embed: embed.Build());
+        await context.CreateResponseAsync(embed: embed.Build());
 
         if (dateExists)
         {
-            await Services.Devoir.Init(ctx.Client, date);
+            await Services.Devoir.Init(context.Client, date);
         }
         else
         {
-            await Services.Devoir.Init(ctx.Client);
+            await Services.Devoir.Init(context.Client);
         }
         await Task.Delay(5000);
-        await ctx.DeleteResponseAsync();
+        await context.DeleteResponseAsync();
     }
 
     private void Add(string date, string groupe, Devoir devoir)
     {
-        List<DevoirDate> devoirs;
+        List<DevoirJour> devoirs;
 
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
             File.WriteAllText(FilePath, "[]");
         }
 
-        var json = File.ReadAllText(FilePath);
-        devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
+        devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
 
-        var devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+        DevoirJour devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
         if (devoirDate == null)
         {
-            devoirDate = new DevoirDate { Date = date, Devoirs = new Dictionary<string, List<Devoir>>() };
+            devoirDate = new DevoirJour { Date = date, Devoirs = new Dictionary<string, List<Devoir>>() };
             devoirs.Add(devoirDate);
         }
 
@@ -90,11 +88,10 @@ public class AddDevoir : ApplicationCommandModule
 
         devoirs = devoirs.OrderBy(d => DateTime.ParseExact(d.Date, "dd/MM", CultureInfo.InvariantCulture)).ToList();
 
-        var updatedJson = JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(FilePath, updatedJson);
+        File.WriteAllText(FilePath, JsonSerializer.Serialize(devoirs, new JsonSerializerOptions { WriteIndented = true }));
     }
 
-    private void AddToGroup(DevoirDate devoirDate, string groupe, Devoir devoir)
+    private void AddToGroup(DevoirJour devoirDate, string groupe, Devoir devoir)
     {
         if (!devoirDate.Devoirs.ContainsKey(groupe))
         {
@@ -111,8 +108,7 @@ public class AddDevoir : ApplicationCommandModule
             return false;
         }
 
-        var json = File.ReadAllText(FilePath);
-        var devoirs = JsonSerializer.Deserialize<List<DevoirDate>>(json) ?? new List<DevoirDate>();
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
 
         return devoirs.Any(d => d.Date == date);
     }
