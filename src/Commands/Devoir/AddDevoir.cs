@@ -19,7 +19,7 @@ public class AddDevoir : ApplicationCommandModule
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere,
         [Option("description", "description")] string description)
     {
-        if (!await Functions.Permission.Get(context, 1280508888206282812))
+        if (!await Functions.Permission.Get(context, "AddDevoir"))
         {
             return;
         }
@@ -30,7 +30,7 @@ public class AddDevoir : ApplicationCommandModule
             Description = description
         };
 
-        bool dateExists = DateExists(date);
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath));
 
         Add(date, groupe, devoir);
 
@@ -46,31 +46,17 @@ public class AddDevoir : ApplicationCommandModule
         embed.AddField("Matière", matiere, true);
 
         await context.CreateResponseAsync(embed: embed.Build());
-
-        if (dateExists)
-        {
-            await Services.Devoir.Init(context.Client, date);
-        }
-        else
-        {
-            await Services.Devoir.Init(context.Client);
-        }
+        await Services.Devoir.Init(context.Client, devoirs.Any(d => d.Date == date) ? date : null);
         await Task.Delay(5000);
         await context.DeleteResponseAsync();
     }
 
     private void Add(string date, string groupe, Devoir devoir)
     {
-        List<DevoirJour> devoirs;
-
-        if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
-        {
-            File.WriteAllText(FilePath, "[]");
-        }
-
-        devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath));
 
         DevoirJour devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+        
         if (devoirDate == null)
         {
             devoirDate = new DevoirJour { Date = date, Devoirs = new Dictionary<string, List<Devoir>>() };
@@ -99,17 +85,5 @@ public class AddDevoir : ApplicationCommandModule
         }
 
         devoirDate.Devoirs[groupe].Add(devoir);
-    }
-
-    private bool DateExists(string date)
-    {
-        if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
-        {
-            return false;
-        }
-
-        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
-
-        return devoirs.Any(d => d.Date == date);
     }
 }

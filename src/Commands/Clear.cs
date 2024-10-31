@@ -9,7 +9,7 @@ public class Clear : ApplicationCommandModule
     [SlashCommand("clear", "Commande pour supprimer des messages")]
     public async Task Command(InteractionContext context, [Option("nombre", "format: 10")] long count)
     {
-        if (!await Functions.Permission.Get(context, 1280508888206282812))
+        if (!await Functions.Permission.Get(context, "Clear"))
         {
             return;
         }

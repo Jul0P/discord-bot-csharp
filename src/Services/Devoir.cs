@@ -15,10 +15,10 @@ public class Devoir
     {
         if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
         {
-            return;
+            File.WriteAllText(FilePath, "[]");
         }
 
-        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath));
         DiscordChannel channel = await client.GetChannelAsync(1297313519825584179);
         IReadOnlyList<DiscordMessage> messages = await channel.GetMessagesAsync();
         DateTime currentDate = DateTime.Now;

@@ -20,7 +20,7 @@ public class UpdateDevoir : ApplicationCommandModule
         [Option("description", "description")] string description = null,
         [Option("nouvelle_matiere", "format: CBA, ABL, Maths, Anglais")] string nouvelleMatiere = null)
     {
-        if (!await Functions.Permission.Get(context, 1280508888206282812))
+        if (!await Functions.Permission.Get(context, "UpdateDevoir"))
         {
             return;
         }
@@ -42,14 +42,10 @@ public class UpdateDevoir : ApplicationCommandModule
 
     private bool Update(string date, string groupe, string matiere, string description, string nouvelleMatiere)
     {
-        if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
-        {
-            return false;
-        }
-
-        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath));
 
         DevoirJour devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+
         if (devoirDate == null)
         {
             return false;
@@ -82,10 +78,12 @@ public class UpdateDevoir : ApplicationCommandModule
         }
 
         Devoir devoirToUpdate = devoirDate.Devoirs[groupe].FirstOrDefault(d => d.Matiere == matiere);
+        
         if (devoirToUpdate == null)
         {
             return false;
         }
+
         if (!string.IsNullOrEmpty(description))
         {
             devoirToUpdate.Description = description;

@@ -16,10 +16,12 @@ public class Documentation : ApplicationCommandModule
             Color = DiscordColor.Azure
         };
 
-        embed.AddField("\u200B", "**Nécessite le rôle** : <@&1280508888206282812>", false);
+        embed.AddField("\u200B", "**Nécessite le rôle** : <@&1280508888206282812> & <@&1280508888206282810>", false);
         embed.AddField("/adddevoir `date` `groupe` `matiere` `description`", "Ajouter un devoir", false);
         embed.AddField("/deletedevoir `date` `groupe` `matiere`", "Supprimer un devoir", false);
         embed.AddField("/updatedevoir `date` `groupe` `matiere` `[description]` `[nouvelle_matiere]`", "Mettre à jour un devoir", false);
+
+        embed.AddField("\n\u200B", "**Nécessite le rôle** : <@&1280508888206282812>", false);
         embed.AddField("/clear `nombre`", "Supprimer des messages", false);
 
         embed.AddField("\n\u200B", "**Nécessite le rôle** : @everyone", false);

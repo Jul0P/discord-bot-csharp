@@ -18,7 +18,7 @@ public class DeleteDevoir : ApplicationCommandModule
         [Option("groupe", "format: Général / A / B / SLAM / SISR / Maths 2")] string groupe,
         [Option("matiere", "format: CBA, ABL, Maths, Anglais")] string matiere)
     {
-        if (!await Functions.Permission.Get(context, 1280508888206282812))
+        if (!await Functions.Permission.Get(context, "DeleteDevoir"))
         {
             return;
         }
@@ -40,14 +40,10 @@ public class DeleteDevoir : ApplicationCommandModule
 
     private async Task<bool> Delete(string date, string groupe, string matiere, DiscordClient client)
     {
-        if (!File.Exists(FilePath) || new FileInfo(FilePath).Length == 0)
-        {
-            return false;
-        }
-
-        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath)) ?? new List<DevoirJour>();
+        List<DevoirJour> devoirs = JsonSerializer.Deserialize<List<DevoirJour>>(File.ReadAllText(FilePath));
 
         DevoirJour devoirDate = devoirs.FirstOrDefault(d => d.Date == date);
+
         if (devoirDate == null)
         {
             return false;
@@ -92,6 +88,7 @@ public class DeleteDevoir : ApplicationCommandModule
         }
 
         Devoir devoirToRemove = devoirDate.Devoirs[groupe].FirstOrDefault(d => d.Matiere == matiere);
+
         if (devoirToRemove == null)
         {
             return false;
