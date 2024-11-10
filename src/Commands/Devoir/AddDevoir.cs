@@ -10,7 +10,7 @@ namespace discord_bot_csharp.Commands;
 
 public class AddDevoir : ApplicationCommandModule
 {
-    private const string FilePath = "src/data/devoir.json";
+    private const string FilePath = "src/Data/devoir.json";
 
     [SlashCommand("adddevoir", "Ajouter un devoir")]
     public async Task Command(InteractionContext context,

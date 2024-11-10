@@ -9,7 +9,7 @@ namespace discord_bot_csharp.Services;
 
 public class Devoir
 { 
-    private const string FilePath = "src/data/devoir.json";
+    private const string FilePath = "src/Data/devoir.json";
 
     public static async Task Init(DiscordClient client, string dateToProcess = null)
     {
