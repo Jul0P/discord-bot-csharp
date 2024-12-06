@@ -1,54 +1,54 @@
 # discord-bot-csharp
 
-`discord-bot-csharp` est un bot Discord écrit en C# utilisant la bibliothèque DSharpPlus. Il permet de gérer des devoirs, de supprimer des messages, et bien plus encore.
+`discord-bot-csharp` is a Discord bot written in C# using the DSharpPlus library. It helps manage assignments, delete messages, and much more.
 
-## Fonctionnalités
+## Features
 
--   Ajouter un devoir
--   Supprimer un devoir
--   Mettre à jour un devoir
--   Supprimer des messages
--   Afficher le statut du bot
--   Documentation des commandes
+-   Add an assignment
+-   Delete an assignment
+-   Update an assignment
+-   Delete messages
+-   Display bot status
+-   Command documentation
 
-## Prérequis
+## Prerequisites
 
 -   [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
--   [Discord Developer Portal](https://discord.com/developers/applications) pour obtenir un token de bot
+-   [Discord Developer Portal](https://discord.com/developers/applications) to obtain a bot token
 
 ## Installation
 
-1. Clonez le dépôt :
+1. Clone the repository :
 
 ```sh
-git clone https://github.com/votre-utilisateur/discord-bot-csharp.git
+git clone https://github.com/Jul0P/discord-bot-csharp.git
 cd discord-bot-csharp
 ```
 
-2. Installez les dépendances :
+2. Install dependencies :
 
 ```sh
 dotnet restore
 ```
 
-3. Renommez le fichier `.env.example` en `.env` :
+3. Rename the `.env.example` file to `.env` :
 
 ```sh
 cp .env.example .env
 ```
 
-4. Ouvrez le fichier `.env` et ajoutez votre token de bot :
+4. Open the `.env` file and add your bot token :
 
 ```properties
 TOKEN=your-discord-bot-token
 ```
 
-## Utilisation
+## Usage
 
-1. Compilez et exécutez le projet :
+1. Build and run the project :
 
 ```sh
 dotnet run
 ```
 
-2. Invitez le bot sur votre serveur Discord en utilisant le lien d'invitation généré depuis le [Discord Developer Portal](https://discord.com/developers/applications).
+2. Invite the bot to your Discord server using the invitation link generated from the [Discord Developer Portal](https://discord.com/developers/applications)
